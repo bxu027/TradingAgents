@@ -149,6 +149,12 @@ class TradingAgentsGraph:
             if effort:
                 kwargs["effort"] = effort
 
+        elif provider == "deepseek":
+            # DeepSeek v4-pro defaults to thinking mode, which requires
+            # reasoning_content to be passed back in subsequent turns —
+            # LangChain does not support this. Disable thinking via extra_body.
+            kwargs["model_kwargs"] = {"extra_body": {"thinking": {"type": "disabled"}}}
+
         return kwargs
 
     def _create_tool_nodes(self) -> Dict[str, ToolNode]:
