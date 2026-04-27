@@ -152,8 +152,9 @@ class TradingAgentsGraph:
         elif provider == "deepseek":
             # DeepSeek v4-pro defaults to thinking mode, which requires
             # reasoning_content to be passed back in subsequent turns —
-            # LangChain does not support this. Disable thinking via extra_body.
-            kwargs["model_kwargs"] = {"extra_body": {"thinking": {"type": "disabled"}}}
+            # LangChain does not support this. Pass extra_body directly
+            # (not via model_kwargs) as required by langchain-openai.
+            kwargs["extra_body"] = {"thinking": {"type": "disabled"}}
 
         return kwargs
 
